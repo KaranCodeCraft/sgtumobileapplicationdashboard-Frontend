@@ -7,6 +7,10 @@ import Dashboard from "./pages/Auth/Dashboard";
 import Sidebar from "./lib/Sidebar";
 import Navbar from "./lib/Navbar";
 import Protected from "./pages/Auth/Protected";
+import Students from "./pages/Auth/Students";
+import StudentAcess from "./pages/Auth/StudentAcess";
+import Profile from "./pages/Auth/Profile";
+import Setting from "./pages/Auth/Setting";
 
 const App = () => {
   const authenticatedRoutes = [
@@ -14,7 +18,22 @@ const App = () => {
       path: "dashboard",
       element: <Dashboard />,
     },
-    // Add more authenticated routes here if needed
+    {
+      path: "students",
+      element: <Students />,
+    },
+    {
+      path: "requests",
+      element: <StudentAcess />,
+    },
+    {
+      path: "profile",
+      element: <Profile />,
+    },
+    {
+      path: "settings",
+      element: <Setting />,
+    },
   ];
 
   return (

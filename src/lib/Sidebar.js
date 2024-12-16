@@ -12,6 +12,14 @@ const Sidebar = () => {
 
   const isActive = (path) => location.pathname === path;
 
+  const tabs = [
+    { label: "Dashboard", path: "/auth/dashboard" },
+    { label: "Manage Access", path: "/auth/requests" },
+    { label: "Students", path: "/auth/students" },
+    { label: "Profile", path: "/auth/profile" },
+    { label: "Settings", path: "/auth/settings" },
+  ];
+
   return (
     <>
       {/* Mobile menu icon */}
@@ -22,50 +30,31 @@ const Sidebar = () => {
       </div>
 
       {/* Sidebar */}
+
       <div
         className={`fixed top-0 left-0 h-full bg-gray-800 text-white transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:relative md:w-48`}
       >
-        <div className="p-4 text-xl font-semibold">My App</div>
+        {/* <div className="p-4 text-xl font-semibold">Na</div> */}
         <nav>
           <ul className="space-y-2 p-2">
+            {tabs.map((tab) => (
+              <li key={tab.path}>
+                <Link
+                  to={tab.path}
+                  className={`block p-2 rounded hover:bg-gray-700 ${
+                    isActive(tab.path) ? "bg-gray-700" : ""
+                  }`}
+                >
+                  {tab.label}
+                </Link>
+              </li>
+            ))}
             <li>
               <Link
-                to="/auth/dashboard"
-                className={`block p-2 rounded hover:bg-gray-700 ${
-                  isActive("/auth/dashboard") ? "bg-gray-700" : ""
-                }`}
-              >
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/profile"
-                className={`block p-2 rounded hover:bg-gray-700 ${
-                  isActive("/profile") ? "bg-gray-700" : ""
-                }`}
-              >
-                Profile
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/settings"
-                className={`block p-2 rounded hover:bg-gray-700 ${
-                  isActive("/settings") ? "bg-gray-700" : ""
-                }`}
-              >
-                Settings
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/logout"
-                className={`block p-2 rounded hover:bg-gray-700 ${
-                  isActive("/logout") ? "bg-gray-700" : ""
-                }`}
+                to="/login"
+                className={`block p-2 rounded hover:bg-gray-700 `}
               >
                 Logout
               </Link>

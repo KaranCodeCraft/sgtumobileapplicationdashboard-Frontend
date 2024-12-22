@@ -7,7 +7,6 @@ import Dashboard from "./pages/Auth/Dashboard";
 import Sidebar from "./lib/Sidebar";
 import Navbar from "./lib/Navbar";
 import Protected from "./pages/Auth/Protected";
-import Students from "./pages/Auth/Students";
 import StudentAcess from "./pages/Auth/StudentAcess";
 import Profile from "./pages/Auth/Profile";
 import Setting from "./pages/Auth/Setting";
@@ -18,10 +17,10 @@ const App = () => {
       path: "dashboard",
       element: <Dashboard />,
     },
-    {
-      path: "students",
-      element: <Students />,
-    },
+    // {
+    //   path: "students",
+    //   element: <Students />,
+    // },
     {
       path: "requests",
       element: <StudentAcess />,
@@ -50,13 +49,13 @@ const App = () => {
             key={index}
             path={route.path}
             element={
-              <div className="flex flex-col min-h-screen">
+              <div className="flex flex-col min-h-screen max-h-screen">
                 {/* Navbar */}
                 <Navbar />
                 {/* Sidebar + Main Content */}
-                <div className="flex flex-grow">
+                <div className="flex flex-grow overflow-auto">
                   <Sidebar />
-                  <main className="flex-1 p-4">{route.element}</main>
+                  <main className="flex-1 p-4 overflow-auto">{route.element}</main>
                 </div>
               </div>
             }

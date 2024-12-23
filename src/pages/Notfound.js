@@ -7,7 +7,7 @@ const NotFound = () => {
 
   const goBackToHome = () => {
     if(localStorage.getItem('token')){
-      return navigate("/dashboard"); 
+      return navigate("/auth/dashboard"); 
     } 
     return navigate("/"); 
   };

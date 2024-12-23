@@ -10,6 +10,7 @@ import Protected from "./pages/Auth/Protected";
 import StudentAcess from "./pages/Auth/StudentAcess";
 import Profile from "./pages/Auth/Profile";
 import Setting from "./pages/Auth/Setting";
+import ApiState from "./Context/ApiState";
 
 const App = () => {
   const authenticatedRoutes = [
@@ -36,6 +37,7 @@ const App = () => {
   ];
 
   return (
+    <ApiState>
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
@@ -63,6 +65,7 @@ const App = () => {
         ))}
       </Route>
     </Routes>
+    </ApiState>
   );
 };
 

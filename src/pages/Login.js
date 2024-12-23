@@ -1,44 +1,72 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ApiContext from "../Context/ApiContext";
+import { z } from "zod"; 
 
 const Login = () => {
+  const { apiBaseUrl } = useContext(ApiContext);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
+  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
+  // Zod schema for validating login form
+  const loginSchema = z.object({
+    email: z
+      .string()
+      .email("Invalid email address")
+      .min(1, "Email is required"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters long")
+      .min(1, "Password is required"),
+  });
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
 
-      navigate("/auth/dashboard");
+    try {
+      const validatedData = loginSchema.parse({ email: username, password });
 
-    
-    // try {
-    //   const response = await fetch("/api/login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ username, password }),
-    //   });
 
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     alert("Login successful!");
-    //     console.log(data);
-    //   } else {
-    //     const errorData = await response.json();
-    //     setErrorMessage(errorData.message || "Login failed. Please try again.");
-    //   }
-    // } catch (error) {
-    //   setErrorMessage("An error occurred. Please try again later.");
-    // }
+      try {
+        const response = await axios.post(`${apiBaseUrl}auth/login`, {
+          email: validatedData.email,
+          password: validatedData.password,
+        });
+   
+        localStorage.setItem("token", response.data.token);
+        navigate("/auth/dashboard");
+      } catch (error) {
+  
+        if (error.response) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          setErrorMessage("Something went wrong. Please try again.");
+        }
+      }
+    } catch (err) {
+
+      if (err instanceof z.ZodError) {
+        setErrorMessage(err.errors[0].message);
+      } else {
+        setErrorMessage("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false); // Stop loading indicator
+    }
   };
 
   return (
@@ -56,7 +84,7 @@ const Login = () => {
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="username"
             >
-              <FaUser className="inline-block mr-2" /> Username
+              <FaUser className="inline-block mr-2" /> Username (Email)
             </label>
             <input
               type="text"
@@ -96,8 +124,9 @@ const Login = () => {
             <button
               type="submit"
               className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              disabled={loading}
             >
-              Sign In
+              {loading ? "Logging in..." : "Sign In"}
             </button>
           </div>
         </form>

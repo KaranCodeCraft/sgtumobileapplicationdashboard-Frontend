@@ -6,7 +6,7 @@ import ApiContext from "../Context/ApiContext";
 import { z } from "zod"; 
 
 const Login = () => {
-  const { apiBaseUrl } = useContext(ApiContext);
+  const { apiBaseUrl, setToken } = useContext(ApiContext);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -39,8 +39,6 @@ const Login = () => {
 
     try {
       const validatedData = loginSchema.parse({ email: username, password });
-
-
       try {
         const response = await axios.post(`${apiBaseUrl}auth/login`, {
           email: validatedData.email,
@@ -48,6 +46,7 @@ const Login = () => {
         });
    
         localStorage.setItem("token", response.data.token);
+        setToken(response.data.token)
         navigate("/auth/dashboard");
       } catch (error) {
   

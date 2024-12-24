@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const AlertContext = createContext();
+const ApiContext = createContext();
 
-export default AlertContext;
+export default ApiContext;

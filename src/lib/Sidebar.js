@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ApiContext from "../Context/ApiContext";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+    const navigate = useNavigate();
+    const{logout} = useContext(ApiContext)
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -52,12 +56,14 @@ const Sidebar = () => {
               </li>
             ))}
             <li>
-              <Link
-                to="/login"
-                className={`block p-2 rounded hover:bg-gray-700 `}
+              <button
+                onClick={() => {logout()
+                }}
+                
+                className={`block w-full p-2 rounded hover:bg-gray-700 `}
               >
                 Logout
-              </Link>
+              </button>
             </li>
           </ul>
         </nav>

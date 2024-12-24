@@ -11,6 +11,7 @@ import StudentAcess from "./pages/Auth/StudentAcess";
 import Profile from "./pages/Auth/Profile";
 import Setting from "./pages/Auth/Setting";
 import ApiState from "./Context/ApiState";
+import Student from "./pages/Auth/Student";
 
 const App = () => {
   const authenticatedRoutes = [
@@ -18,10 +19,10 @@ const App = () => {
       path: "dashboard",
       element: <Dashboard />,
     },
-    // {
-    //   path: "students",
-    //   element: <Students />,
-    // },
+    {
+      path: "students",
+      element: <Student />,
+    },
     {
       path: "requests",
       element: <StudentAcess />,
